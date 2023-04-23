@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         Country::create(['name' => 'Germany', 'code' => 'DE']);
         Country::create(['name' => 'Italy', 'code' => 'IT']);
         Country::create(['name' => 'France', 'code' => 'FR']);
+        Country::create(['name' => 'Spain', 'code' => 'ES']);
+        Country::create(['name' => 'Japan', 'code' => 'JP']);
 
         #approach #1 - create instance of manufacturer, call save on collection
         $france = Country::where('name', 'France')->first();
@@ -32,5 +34,25 @@ class DatabaseSeeder extends Seeder
         $audi->name = 'Audi';
         $audi->country()->associate($germany);
         $audi->save();
+
+        $spain = Country::where('name', 'Spain')->first();
+        $japan = Country::where('name', 'Japan')->first();
+        $spain->manufacturers()->create(['name' => 'Seat']);
+        $japan->manufacturers()->create(['name' => 'Toyota']);
+        $germany->manufacturers()->create(['name' => 'Volkswagen']);
+
+        $volkswagen = Manufacturer::where('name', 'Volkswagen')->first();
+        $audi = Manufacturer::where('name', 'Audi')->first();
+        $seat = Manufacturer::where('name', 'Seat')->first();
+        $volkswagen->carmodels()->create(['name' => 'Passat']);
+        $volkswagen->carmodels()->create(['name' => 'Golf']);
+        $volkswagen->carmodels()->create(['name' => 'Multivan']);
+        $audi->carmodels()->create(['name' => 'A4']);
+        $audi->carmodels()->create(['name' => 'A6']);
+        $audi->carmodels()->create(['name' => 'Q3']);
+        $audi->carmodels()->create(['name' => 'Q4']);
+        $audi->carmodels()->create(['name' => 'Q5']);
+        $seat->carmodels()->create(['name' => 'Toledo']);
+        $seat->carmodels()->create(['name' => 'Ibiza']);
     }
 }
