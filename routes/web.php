@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\ManufacturerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::redirect('/', 'country');
+Route::resource('country', CountryController::class);
+
+Route::resource('manufacturer', ManufacturerController::class, ['except' => ['index', 'create']]);
+Route::get('{countryslug}/manufacturer', [ManufacturerController::class, 'index']);
+Route::get('{countryslug}/manufacturer/create', [ManufacturerController::class, 'create']);
