@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Country;
+use App\Models\Manufacturer;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +13,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        Country::create(['name' => 'Germany', 'code' => 'DE']);
+        Country::create(['name' => 'Italy', 'code' => 'IT']);
+        Country::create(['name' => 'France', 'code' => 'FR']);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        #approach #1 - create instance of manufacturer, call save on collection
+        $france = Country::where('name', 'France')->first();
+        $renault = new Manufacturer();
+        $renault->name = 'Renault';
+        $france->manufacturers()->save($renault);
+
+        #approach #2 - use "create"  shortcut of collection
+        $france->manufacturers()->create(['name' => 'Peugeot']);
+
+        #approach #3 - calling "associate" on sub-object
+        $germany = Country::where('name', 'Germany')->first();
+        $audi = new Manufacturer();
+        $audi->name = 'Audi';
+        $audi->country()->associate($germany);
+        $audi->save();
     }
 }
