@@ -11,18 +11,29 @@
 <body>
     <h1>Manufacturers in {{$country->name}}</h1>
     @if (count($manufacturers) == 0)
-        <p color='red'>There are no records in the database!</p>
+    <p color='red'>There are no records in the database!</p>
     @else
-        <ul>
+    <ul>
 
-            @foreach ($manufacturers as $manufacturer)
-                <li>
-                   {{ $manufacturer->name }}
-                </li>
-            @endforeach
-        </ul>
-        <a href="{{ action([App\Http\Controllers\ManufacturerController::class, 'create'],['countryslug' => $country->code])}}">Add new manufacturer</a>
+        @foreach ($manufacturers as $manufacturer)
+        <li>
+            <a href="{{ action([App\Http\Controllers\CarmodelController::class, 'index'],['manufacturerslug' => $manufacturer->id])}}">{{ $manufacturer->name }}</a>
+
+            <!-- <form method="GET" action={{ action([App\Http\Controllers\ManufacturerController::class, 'edit'], $manufacturer->id) }}>
+                <button type="submit">Edit</button>
+            </form> -->
+            <a href="{{ action([App\Http\Controllers\ManufacturerController::class, 'edit'], $manufacturer->id) }}">Edit</a>
+
+            <form method="POST" action={{ action([App\Http\Controllers\ManufacturerController::class, 'destroy'], $manufacturer->id) }}>
+                @csrf
+                @method('DELETE')
+                <button type="submit" value="delete">Delete</button>
+            </form>
+        </li>
+        @endforeach
+    </ul>
     @endif
+    <a href="{{ action([App\Http\Controllers\ManufacturerController::class, 'create'],['countryslug' => $country->code])}}">Add new manufacturer</a>
 </body>
 
 </html>

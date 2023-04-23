@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ManufacturerController;
+use App\Http\Controllers\CarmodelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,7 @@ Route::resource('country', CountryController::class);
 Route::resource('manufacturer', ManufacturerController::class, ['except' => ['index', 'create']]);
 Route::get('{countryslug}/manufacturer', [ManufacturerController::class, 'index']);
 Route::get('{countryslug}/manufacturer/create', [ManufacturerController::class, 'create']);
+
+Route::resource('carmodel', CarmodelController::class, ['except' => ['index', 'create']]);
+Route::get('manufacturer/{manufacturerslug}/models', [CarmodelController::class, 'index']);
+Route::get('{manufacturerslug}/carmodel/create', [CarmodelController::class, 'create']);

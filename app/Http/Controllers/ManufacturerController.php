@@ -79,6 +79,7 @@ class ManufacturerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Manufacturer::findOrfail($id)->delete();
+        return redirect()->back();
     }
 }
