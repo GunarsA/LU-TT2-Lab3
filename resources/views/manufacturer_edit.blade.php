@@ -16,6 +16,12 @@
       @method('put')
       <label for='manufacturer_name'>Manufacturer name</label>
       <input type="text" name="manufacturer_name" id="manufacturer_name" value="{{ $manufacturer->name }}">
+      <label for='manufacturer_founded'>Year founded</label>
+      <input type="text" name="manufacturer_founded" id="manufacturer_founded"
+          value="{{ $manufacturer->founded }}">
+      <label for='manufacturer_website'>Website</label>
+      <input type="text" name="manufacturer_website" id="manufacturer_website"
+          value="{{ $manufacturer->website }}">
       <button type="submit" value="Update">Save changes</button>
   </form>
 </body>

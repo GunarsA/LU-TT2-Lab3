@@ -15,6 +15,10 @@
         <input type="hidden" name="country_id" value="{{ $country->id }}">
         <label for='manufacturer_name'>Manufacturer name</label>
         <input type="text" name="manufacturer_name" id="manufacturer_name">
+        <label for='manufacturer_founded'>Year founded</label>
+        <input type="text" name="manufacturer_founded" id="manufacturer_founded">
+        <label for='manufacturer_website'>Website</label>
+        <input type="text" name="manufacturer_website" id="manufacturer_website">
         <button type="submit" value="Add">Save</button>
     </form>
 </body>

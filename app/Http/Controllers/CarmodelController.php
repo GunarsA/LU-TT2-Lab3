@@ -39,6 +39,8 @@ class CarmodelController extends Controller
         $carmodel = new Carmodel();
         $carmodel->name = $request->carmodel_name;
         $carmodel->manufacturer_id = $request->manufacturer_id;
+        $carmodel->production_started = $request->carmodel_production_started;
+        $carmodel->min_price = $request->carmodel_min_price;
         $carmodel->save();
 
         #to perform a redirect back, we need manufacturer ID

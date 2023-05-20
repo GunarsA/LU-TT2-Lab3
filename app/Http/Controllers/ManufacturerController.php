@@ -39,6 +39,8 @@ class ManufacturerController extends Controller
         $manufacturer = new Manufacturer();
         $manufacturer->name = $request->manufacturer_name;
         $manufacturer->country_id = $request->country_id;
+        $manufacturer->founded = $request->manufacturer_founded;
+        $manufacturer->website = $request->manufacturer_website;
         $manufacturer->save();
 
         #to perform a redirect back, we need country code from ID
@@ -71,6 +73,8 @@ class ManufacturerController extends Controller
     {
         $manufacturer = Manufacturer::findOrFail($id);
         $manufacturer->name = $request->manufacturer_name;
+        $manufacturer->founded = $request->manufacturer_founded;
+        $manufacturer->website = $request->manufacturer_website;
         $manufacturer->save();
         return redirect(action([ManufacturerController::class, 'index'], ['countryslug' => $manufacturer->country->code]));
     }
