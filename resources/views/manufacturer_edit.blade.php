@@ -10,18 +10,27 @@
 
 <body>
   <h1>Editing manufacturer {{ $manufacturer->name }}</h1>
+  @if (count($errors) > 0)
+    <div>
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+  @endif
   <form method="POST"
       action={{ action([App\Http\Controllers\ManufacturerController::class, 'update'], [ 'manufacturer' => $manufacturer]) }}>
       @csrf
       @method('put')
-      <label for='manufacturer_name'>Manufacturer name</label>
-      <input type="text" name="manufacturer_name" id="manufacturer_name" value="{{ $manufacturer->name }}">
-      <label for='manufacturer_founded'>Year founded</label>
-      <input type="text" name="manufacturer_founded" id="manufacturer_founded"
-          value="{{ $manufacturer->founded }}">
-      <label for='manufacturer_website'>Website</label>
-      <input type="text" name="manufacturer_website" id="manufacturer_website"
-          value="{{ $manufacturer->website }}">
+      <label for='name'>Manufacturer name</label>
+      <input type="text" name="name" id="name" value="{{ old('name', $manufacturer->name) }}">
+      <label for='founded'>Year founded</label>
+      <input type="text" name="founded" id="founded"
+          value="{{ old('founded', $manufacturer->founded) }}">
+      <label for='website'>Website</label>
+      <input type="text" name="website" id="website"
+          value="{{ old('website', $manufacturer->website) }}">
       <button type="submit" value="Update">Save changes</button>
   </form>
 </body>

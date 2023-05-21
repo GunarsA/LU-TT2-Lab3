@@ -6,6 +6,9 @@ use App\Models\Manufacturer;
 use App\Models\Carmodel;
 use Illuminate\Http\Request;
 
+// Car model's minimal price has to be positive number
+//    Start of car model's production has to be an integer value larger than 1900.
+
 class CarmodelController extends Controller
 {
     /**
@@ -36,11 +39,16 @@ class CarmodelController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'name' => 'required|unique:carmodels,name',
+            'production_started' => 'required|integer|min:1900|max:' . date('Y'),
+            'min_price' => 'required|numeric|min:0',
+        ];
+        $validated = $request->validate($rules);
+
         $carmodel = new Carmodel();
-        $carmodel->name = $request->carmodel_name;
         $carmodel->manufacturer_id = $request->manufacturer_id;
-        $carmodel->production_started = $request->carmodel_production_started;
-        $carmodel->min_price = $request->carmodel_min_price;
+        $carmodel->fill($validated);
         $carmodel->save();
 
         #to perform a redirect back, we need manufacturer ID

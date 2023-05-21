@@ -6,6 +6,18 @@ use App\Models\Country;
 use App\Models\Manufacturer;
 use Illuminate\Http\Request;
 
+// Add validation to ManufacturerController and CarmodelController. At minimum, set the following rules:
+
+//     Manufacturer name may not be empty
+//     Manufacturer name cannot exceed certain length
+//     Manufactuer name has to be unique in the database
+//     Website URL of the manufacturer has to be a valid URL
+//     Foundation year has to be an integer value
+//     Foundation year of the manufacturer cannot be in the future
+//     Car model's minimal price has to be positive number
+//     Start of car model's production has to be an integer value larger than 1900.
+
+
 class ManufacturerController extends Controller
 {
     /**
@@ -36,11 +48,16 @@ class ManufacturerController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'name' => 'required|unique:manufacturers,name',
+            'founded' => 'required|integer|min:1900|max:' . date('Y'),
+            'website' => 'required|url',
+        ];
+        $validated = $request->validate($rules);
+
         $manufacturer = new Manufacturer();
-        $manufacturer->name = $request->manufacturer_name;
         $manufacturer->country_id = $request->country_id;
-        $manufacturer->founded = $request->manufacturer_founded;
-        $manufacturer->website = $request->manufacturer_website;
+        $manufacturer->fill($validated);
         $manufacturer->save();
 
         #to perform a redirect back, we need country code from ID
@@ -71,11 +88,19 @@ class ManufacturerController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
+
+        $rules = [
+            'name' => 'required|unique:manufacturers,name,' . $id,
+            'founded' => 'required|integer|min:1900|max:' . date('Y'),
+            'website' => 'required|url',
+        ];
+        $validated = $request->validate($rules);
+
         $manufacturer = Manufacturer::findOrFail($id);
-        $manufacturer->name = $request->manufacturer_name;
-        $manufacturer->founded = $request->manufacturer_founded;
-        $manufacturer->website = $request->manufacturer_website;
+        $manufacturer->fill($validated);
         $manufacturer->save();
+
         return redirect(action([ManufacturerController::class, 'index'], ['countryslug' => $manufacturer->country->code]));
     }
     /**

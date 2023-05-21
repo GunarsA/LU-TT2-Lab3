@@ -9,7 +9,7 @@ class Carmodel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'production_started', 'min_price'];
 
     public function manufacturer()
     {

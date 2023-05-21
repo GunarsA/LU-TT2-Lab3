@@ -10,15 +10,24 @@
 
 <body>
     <h1>New manufacturer by {{ $manufacturer->name }}</h1>
+    @if (count($errors) > 0)
+    <div>
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
     <form method="POST" action={{ action([App\Http\Controllers\CarmodelController::class, 'store']) }}>
         @csrf
         <input type="hidden" name="manufacturer_id" value="{{ $manufacturer->id }}">
-        <label for='carmodel_name'>Carmodel name</label>
-        <input type="text" name="carmodel_name" id="carmodel_name">
-        <label for='carmodel_production_started'>Production started</label>
-        <input type="number" name="carmodel_production_started" id="carmodel_production_started">
-        <label for='carmodel_min_price'>Min price</label>
-        <input type="number" name="carmodel_min_price" id="carmodel_min_price">
+        <label for='name'>Carmodel name</label>
+        <input type="text" name="name" id="name" value="{{old('name')}}">
+        <label for='production_started'>Production started</label>
+        <input type="number" name="production_started" id="production_started" value="{{old('production_started')}}">
+        <label for='min_price'>Min price</label>
+        <input type="number" name="min_price" id="min_price" value="{{old('min_price')}}">
         <button type="submit" value="Add">Save</button>
     </form>
 </body>

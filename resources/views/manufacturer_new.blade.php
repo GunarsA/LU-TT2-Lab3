@@ -10,16 +10,26 @@
 
 <body>
     <h1>New manufacturer in {{ $country->name }}</h1>
+    @if (count($errors) > 0)
+    <div>
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
     <form method="POST" action={{ action([App\Http\Controllers\ManufacturerController::class, 'store']) }}>
         @csrf
         <input type="hidden" name="country_id" value="{{ $country->id }}">
-        <label for='manufacturer_name'>Manufacturer name</label>
-        <input type="text" name="manufacturer_name" id="manufacturer_name">
-        <label for='manufacturer_founded'>Year founded</label>
-        <input type="text" name="manufacturer_founded" id="manufacturer_founded">
-        <label for='manufacturer_website'>Website</label>
-        <input type="text" name="manufacturer_website" id="manufacturer_website">
+        <label for='name'>Manufacturer name</label>
+        <input type="text" name="name" id="name" value="{{old('name')}}">
+        <label for='founded'>Year founded</label>
+        <input type="text" name="founded" id="founded" value="{{old('founded')}}">
+        <label for='website'>Website</label>
+        <input type="text" name="website" id="website" value="{{old('website')}}">
         <button type="submit" value="Add">Save</button>
     </form>
 </body>
+
 </html>
